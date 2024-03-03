@@ -1,0 +1,115 @@
+﻿<Window x:Class="FNAF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FNAF"
+        KeyDown="MainWindow_KeyDown"
+        Title="Five Nights at Freddy's" WindowState="Maximized" WindowStyle="None" Height="1080" Width="1920" Icon="/icon.jpg" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <!-- Storyboard för att animera element med namn "five" -->
+        <Storyboard x:Key="storyboardFive">
+            <ThicknessAnimation Storyboard.TargetName="five"
+                        Storyboard.TargetProperty="Margin"
+                        To="0,0,0,200" Duration="0:0:1"/>
+        </Storyboard>
+
+        <!-- Storyboard för att animera element med namn "six" -->
+        <Storyboard x:Key="storyboardSix">
+            <ThicknessAnimation Storyboard.TargetName="six"
+                        Storyboard.TargetProperty="Margin"
+                        To="0,0,0,0" Duration="0:0:1" BeginTime="0:0:1"/>
+        </Storyboard>
+    </Window.Resources>
+
+    <Grid>
+        <!--Background-->
+        <Image x:Name="officeImage" Source="/Images/Backgrounds/Office Backgrounds/OfficeEmpty.jpg" Stretch="Fill" Visibility="{Binding OfficeImageVisibility}"/>
+
+        <!--Buttons-->
+        <Image x:Name="leftDoorButtonImage" Source="/Images/Doors/Buttons/Left/Off.png" Margin="-13,456,1816,348" Visibility="Visible" Stretch="Fill"/>
+        <Image x:Name="rightDoorButtonImage" Source="/Images/Doors/Buttons/Right/Off.png" Margin="1817,456,-15,348" Visibility="Visible" Stretch="Fill"/>
+        <Button x:Name="leftLightBtn" Width="50" Margin="26,602,1844,416" Click="leftLightBtn_Click" RenderTransformOrigin="0.76,0.56" Opacity="0"/>
+        <Button x:Name="leftDoorBtn" Width="50" Margin="26,516,1844,504" Click="leftDoorBtn_Click" Opacity="0"/>
+        <Button x:Name="rightLightBtn" Width="50" Margin="1845,602,25,416" Click="rightLightBtn_Click" Opacity="0"/>
+        <Button x:Name="rightDoorBtn" Width="50" Margin="1845,516,25,504" Click="rightDoorBtn_Click" Opacity="0"/>
+
+        <!--Doors-->
+        <Image x:Name="leftDoorImage" Source="/Images/Doors/Left/1.png" Margin="93,0,1559,0" Visibility="Visible" Stretch="Fill"/>
+        <Image x:Name="rightDoorImage" Source="/Images/Doors/Right/1.png" Margin="1536,0,108,0" Visibility="Visible" Stretch="Fill"/>
+
+        <!--Tablet Animation-->
+        <Image x:Name="tabletImage" Stretch="Fill" Visibility="Hidden"/>
+
+        <!--Camera-->
+        <Image x:Name="cameraImage" Source="/Images/Scenes/CAM 1A/FullStage.png" Stretch="Fill" Visibility="Hidden"/>
+        <Image x:Name="noiseImage" Stretch="Fill" Source="/Images/Noise/Noise1.png" Visibility="Hidden" Opacity="0.3"/>
+        <Image x:Name="glitchImage" Stretch="Fill" Visibility="Visible"/>
+
+        <!--HUD-->
+        <Grid x:Name="audioOnlyText" Visibility="Hidden">
+            <TextBlock Text="-CAMERA DISABLED-" HorizontalAlignment="Center" Margin="0,67,0,0" FontFamily="Consolas" FontSize="72" Foreground="White" Visibility="Visible" VerticalAlignment="Top"/>
+            <TextBlock Text="AUDIO ONLY" HorizontalAlignment="Center" Margin="0,151,0,0" FontFamily="Consolas" FontSize="72" Foreground="White" Visibility="Visible" VerticalAlignment="Top"/>
+        </Grid>
+        <TextBlock x:Name="usageText" Text="Usage:" Foreground="White" FontSize="30" Margin="14,1003,1693,-43" FontFamily="Consolas"/>
+        <TextBlock x:Name="powerLeftText" Text="Power left:" Foreground="White" FontSize="30" Margin="14,958,1693,2" FontFamily="Consolas"/>
+        <TextBlock x:Name="powerLeft" Text="99%" Foreground="White" FontSize="46" Margin="202,943,1505,17" FontFamily="Consolas"/>
+        <TextBlock x:Name="nightNameText" Text="Night" Foreground="White" FontSize="36" Margin="1713,100,110,939" FontFamily="Consolas"/>
+        <TextBlock x:Name="nightText" Text="1" Foreground="White" FontSize="36" Margin="1823,100,72,930" FontFamily="Consolas"/>
+        <TextBlock x:Name="hourText" Text="12" Foreground="White" FontSize="60" Margin="0,29,158,980" FontFamily="Consolas" HorizontalAlignment="Right"/>
+        <TextBlock x:Name="amText" Text="AM" Foreground="White" FontSize="60" Margin="1782,29,56,989" FontFamily="Consolas"/>
+        <Image x:Name="batteryCells" Source="/Images/HUD/battery1.png" Margin="80,1003,1618,33" RenderTransformOrigin="0.721,0.349"/>
+        <Image x:Name="cameraBorder" Source="/Images/Tablet/Map/11.png" Visibility="Hidden"/>
+        <Image x:Name="cameraMap" Source="/Images/Tablet/Map/145.png" Margin="1128,542,-172,-4" Visibility="Hidden"/>
+        <Grid x:Name="cameraButtons" Visibility="Hidden">
+            <Image x:Name="Cam_1A" MouseLeftButtonDown="Cam_1A_MouseLeftButtonDown" Source="/Images/Tablet/Map/167.png" Margin="1475,556,332,460"/>
+            <Image x:Name="Cam_1B" MouseLeftButtonDown="Cam_1B_MouseLeftButtonDown" Source="/Images/Tablet/Map/167.png" Margin="1447,646,361,370"/>
+            <Image x:Name="Cam_5" MouseLeftButtonDown="Cam_5_MouseLeftButtonDown" Source="/Images/Tablet/Map/167.png" Margin="1284,669,524,347"/>
+            <Image x:Name="Cam_1C" MouseLeftButtonDown="Cam_1C_MouseLeftButtonDown" Source="/Images/Tablet/Map/167.png" Margin="1399,749,409,267"/>
+            <Image x:Name="Cam_3" MouseLeftButtonDown="Cam_3_MouseLeftButtonDown" Source="/Images/Tablet/Map/167.png" Margin="1345,886,463,130"/>
+            <Image x:Name="Cam_2A" MouseLeftButtonDown="Cam_2A_MouseLeftButtonDown" Source="/Images/Tablet/Map/167.png" Margin="1476,897,332,119"/>
+            <Image x:Name="Cam_2B" MouseLeftButtonDown="Cam_2B_MouseLeftButtonDown" Source="/Images/Tablet/Map/167.png" Margin="1476,966,332,50"/>
+            <Image x:Name="Cam_4A" MouseLeftButtonDown="Cam_4A_MouseLeftButtonDown" Source="/Images/Tablet/Map/167.png" Margin="1618,897,190,119"/>
+            <Image x:Name="Cam_4B" MouseLeftButtonDown="Cam_4B_MouseLeftButtonDown" Source="/Images/Tablet/Map/167.png" Margin="1618,966,190,50"/>
+            <Image x:Name="Cam_6" MouseLeftButtonDown="Cam_6_MouseLeftButtonDown" Source="/Images/Tablet/Map/167.png" Margin="1759,865,49,151"/>
+            <Image x:Name="Cam_7" MouseLeftButtonDown="Cam_7_MouseLeftButtonDown" Source="/Images/Tablet/Map/167.png" Margin="1759,669,49,347"/>
+
+            <Image Source="/Images/Tablet/Map/170.png" MouseLeftButtonDown="Cam_1A_MouseLeftButtonDown" Margin="1489,567,359,471"/>
+            <Image Source="/Images/Tablet/Map/171.png" MouseLeftButtonDown="Cam_1B_MouseLeftButtonDown" Margin="1459,657,389,381"/>
+            <Image Source="/Images/Tablet/Map/174.png" MouseLeftButtonDown="Cam_5_MouseLeftButtonDown"  Margin="1296,680,552,358"/>
+            <Image Source="/Images/Tablet/Map/177.png" MouseLeftButtonDown="Cam_1C_MouseLeftButtonDown" Margin="1411,760,437,278"/>
+            <Image Source="/Images/Tablet/Map/168.png" MouseLeftButtonDown="Cam_3_MouseLeftButtonDown"  Margin="1356,897,492,141"/>
+            <Image Source="/Images/Tablet/Map/172.png" MouseLeftButtonDown="Cam_2A_MouseLeftButtonDown" Margin="1489,908,359,130"/>
+            <Image Source="/Images/Tablet/Map/165.png" MouseLeftButtonDown="Cam_2B_MouseLeftButtonDown" Margin="1489,977,359,61"/>
+            <Image Source="/Images/Tablet/Map/169.png" MouseLeftButtonDown="Cam_4A_MouseLeftButtonDown" Margin="1631,908,217,130"/>
+            <Image Source="/Images/Tablet/Map/173.png" MouseLeftButtonDown="Cam_4B_MouseLeftButtonDown" Margin="1631,977,217,61"/>
+            <Image Source="/Images/Tablet/Map/175.png" MouseLeftButtonDown="Cam_6_MouseLeftButtonDown"  Margin="1770,876,78,162"/>
+            <Image Source="/Images/Tablet/Map/176.png" MouseLeftButtonDown="Cam_7_MouseLeftButtonDown"  Margin="1770,680,78,358"/>
+        </Grid>
+        <Image x:Name="muteCall" Source="/Images/HUD/MuteCall.png" Margin="43,28,1685,1000" MouseLeftButtonDown="muteCall_MouseLeftButtonDown"/>
+        <Image x:Name="recordingIcon" Source="/Images/Tablet/Map/7.png" Margin="41,96,1753,914" Visibility="Hidden"/>
+        <Image x:Name="tabletBar" Source="/Images/HUD/TabletBar.png" Margin="0,1003,647,0" MouseEnter="tabletBar_MouseEnter" HorizontalAlignment="Right" Width="853" Cursor="Arrow" Height="120" VerticalAlignment="Top"/>
+
+        <!--Jumpscare-->
+        <Image x:Name="jumpscareImage" Visibility="Hidden" Source="/Images/Jumpscares/Freddy/1.png" Stretch="Fill"/>
+
+        <!--Clock-->
+        <Grid x:Name="clock" Background="Black" Visibility="Hidden">
+            <!-- Top Border för Plaster -->
+            <Border Background="Black" Height="503" Panel.ZIndex="100" VerticalAlignment="Top"/>
+
+            <!-- Image för num5 -->
+            <Image Source="/Images/Time/5.png" Stretch="Uniform" Width="50" Margin="0,0,0,0" x:Name="five"/>
+
+            <!-- Image för AM -->
+            <Image Source="/Images/Time/AM.png" Stretch="Uniform" Width="115" Margin="200,0,0,0"/>
+
+            <!-- Bottom Border för Plaster -->
+            <Border Background="Black" Height="503" Panel.ZIndex="100" VerticalAlignment="Top" Margin="0,577,0,0"/>
+
+            <!-- Image för num6 -->
+            <Image x:Name="six" Source="/Images/Time/6.png" Stretch="Uniform" Width="50" Margin="0,150,0,0"/>
+        </Grid>
+    </Grid>
+</Window>
